@@ -6,6 +6,7 @@
     "module": "ESNext",
     "skipLibCheck": true,
 
+
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -23,7 +24,8 @@
     /*Jest compatibility*/
     "esModuleInterop": true,
     "types": [
-      "jest"
+      "jest",
+      "node"
     ]
   },
   "include": ["test/**/*", "src"],
