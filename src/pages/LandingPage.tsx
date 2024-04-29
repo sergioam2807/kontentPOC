@@ -2,9 +2,10 @@ import { useState, useEffect } from 'react'
 import { Grid, Typography, Paper, TextField, Box, Button } from '@mui/material'
 import { deliveryClient } from '../client/client'
 import relax from '../assets/study2.svg'
+import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
 
 const LandingPage = () => {
-  const [content, setContent] = useState(null)
+  const [content, setContent] = useState<IContentItemElements | null>(null)
 
   useEffect(() => {
     deliveryClient
@@ -18,8 +19,6 @@ const LandingPage = () => {
         console.error(error)
       })
   }, [])
-
-  console.log(content)
 
   return (
     <Grid

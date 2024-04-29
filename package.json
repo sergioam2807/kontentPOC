@@ -24,7 +24,8 @@
     "@kontent-ai/delivery-sdk": "^14.8.0",
     "@mui/material": "^5.15.15",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.0"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.20",
