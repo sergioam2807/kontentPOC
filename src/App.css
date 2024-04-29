@@ -2,3 +2,39 @@ body {
   margin: 0;
   padding: 0;
 }
+
+.typing-effect {
+  color: #301038;
+  white-space: nowrap;
+  overflow: hidden;
+  border-right: 0.15em solid #301038;
+  animation:
+    typing 2s steps(40, end),
+    blink-caret 0.75s step-end 5,
+    hide-caret 1s 2.5s forwards;
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #301038;
+  }
+}
+
+@keyframes hide-caret {
+  to {
+    border-color: transparent;
+  }
+}

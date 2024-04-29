@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Grid, Typography, Paper, TextField, Box, Button } from '@mui/material'
 import { deliveryClient } from '../client/client'
 import relax from '../assets/study2.svg'
@@ -6,6 +7,7 @@ import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
 
 const LandingPage = () => {
   const [content, setContent] = useState<IContentItemElements | null>(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     deliveryClient
@@ -143,6 +145,9 @@ const LandingPage = () => {
               </Grid>
               <Button
                 variant='contained'
+                onClick={() => {
+                  navigate('/programs')
+                }}
                 sx={{
                   backgroundColor: '#301038',
                   fontWeight: '700',
