@@ -1,5 +1,5 @@
 import { Button, Grid, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 interface ProgramsCardProps {
   title: string
