@@ -1,12 +1,13 @@
 import { Button, Grid, Typography } from '@mui/material'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 interface ProgramsCardProps {
   title: string
   created?: string
   date?: string
   description: string
-  levels?: string
+  levels?: string[]
 }
 
 const ProgramsCard = ({
@@ -51,7 +52,10 @@ const ProgramsCard = ({
           </Typography>
         </Grid>
       </Grid>
-      {isHovered && (levels ?? '').trim() !== '' ? (
+      {isHovered &&
+      levels !== null &&
+      levels !== undefined &&
+      levels.length > 0 ? (
         <Grid>
           <Grid display={'flex'} justifyContent={'center'}>
             <Typography
@@ -63,22 +67,24 @@ const ProgramsCard = ({
             </Typography>
           </Grid>
           <Grid display={'flex'} justifyContent={'center'} gap={2} mt={2}>
-            {levels?.split(', ').map((level, index) => (
-              <Button
-                key={index}
-                variant='contained'
-                sx={{
-                  backgroundColor: '#301038',
-                  fontWeight: '700',
-                  '&:hover': {
-                    backgroundColor: '#A786B1',
-                    color: '#301038',
-                    fontWeight: '700'
-                  }
-                }}
-              >
-                {level}
-              </Button>
+            {levels?.map((level, index) => (
+              <Link to={`/courses/${level}`} key={index}>
+                <Button
+                  key={index}
+                  variant='contained'
+                  sx={{
+                    backgroundColor: '#301038',
+                    fontWeight: '700',
+                    '&:hover': {
+                      backgroundColor: '#A786B1',
+                      color: '#301038',
+                      fontWeight: '700'
+                    }
+                  }}
+                >
+                  {level}
+                </Button>
+              </Link>
             ))}
           </Grid>
         </Grid>

@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { deliveryClient } from '../client/client'
 import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
-import HeaderBar from '../components/HeaderBar'
 import { Grid, Typography } from '@mui/material'
 import ProgramsCard from '../components/ProgramsCard'
 
@@ -22,11 +21,8 @@ const Programs = () => {
       })
   }, [])
 
-  console.log(programs)
-
   return (
     <Grid>
-      <HeaderBar />
       <Grid display={'flex'} justifyContent={'center'} mt={10} mb={10}>
         <Grid>
           <Typography
@@ -49,7 +45,7 @@ const Programs = () => {
             <ProgramsCard
               title={program?.program_title?.value}
               description={program?.program_description?.value}
-              levels='Silver, Gold, Platinum'
+              levels={program?.levels?.value}
             />
           </Grid>
         ))}
