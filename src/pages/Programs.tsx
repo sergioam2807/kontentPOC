@@ -21,6 +21,7 @@ const Programs = () => {
       })
   }, [])
 
+  console.log(programs)
   return (
     <Grid>
       <Grid display={'flex'} justifyContent={'center'} mt={10} mb={10}>
