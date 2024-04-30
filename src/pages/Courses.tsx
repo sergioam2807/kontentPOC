@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { deliveryClient } from '../client/client'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
+import CourseCard from '../components/CourseCard'
+import { Grid, Typography } from '@mui/material'
 
 interface Course {
   id: string
@@ -12,12 +14,17 @@ interface Course {
   topic: string
   spoc: string
   training_hrs: string
+  course_image: string
 }
 
 const Courses = () => {
   const { level } = useParams<{ level: string }>()
   const [courses, setCourses] = useState<Course[]>([])
-
+  const location = useLocation()
+  const pathParts = location.pathname.split('/')
+  const pathName = pathParts[2]
+  const capitalizedPathName =
+    pathName.charAt(0).toUpperCase() + pathName.slice(1)
   useEffect(() => {
     deliveryClient
       .items()
@@ -25,7 +32,6 @@ const Courses = () => {
       .depthParameter(2)
       .toPromise()
       .then(async (response) => {
-        // Busca el nivel correcto en la respuesta de la API
         const levelItem = response?.data?.items?.find(
           (item) => item.system.codename === level
         )
@@ -39,7 +45,6 @@ const Courses = () => {
           .toPromise()
       })
       .then((response) => {
-        console.log('response', response)
         const filteredCourses: Course[] = response?.data?.items?.map((item) => {
           return {
             id: item.system.id,
@@ -50,7 +55,8 @@ const Courses = () => {
             link_suggested: item.elements.link_suggested?.value,
             topic: item.elements.topic?.value,
             spoc: item.elements.spoc?.value,
-            training_hrs: item.elements.training_hrs?.value
+            training_hrs: item.elements.training_hrs?.value,
+            course_image: item.elements?.course_image?.value[0]?.url
           }
         })
         setCourses(filteredCourses)
@@ -63,18 +69,34 @@ const Courses = () => {
   console.log('courses', courses)
 
   return (
-    <div>
-      {courses.map((course, index) => (
-        <>
-          <div key={index}>{course?.area_name}</div>
-          <div key={index}>{course?.topic}</div>
-          <div key={index}>{course?.learning_expectatio}</div>
-          <div key={index}>{course?.link_suggested}</div>
-          <div key={index}>{course?.spoc}</div>
-          <div key={index}>{course?.training_hrs}</div>
-        </>
-      ))}
-    </div>
+    <Grid>
+      <Grid
+        display={'flex'}
+        justifyContent={'center'}
+        alignItems={'center'}
+        mt={6}
+        mb={-6}
+      >
+        <Typography variant='h2' fontWeight={900} color={'#301038'}>
+          {capitalizedPathName} Courses
+        </Typography>
+      </Grid>
+      <Grid>
+        {courses.map((course, index) => (
+          <Grid key={index} p={20}>
+            <CourseCard
+              title={course?.area_name}
+              description={course?.learning_expectatio}
+              link={course?.link_suggested}
+              spoc={course?.spoc}
+              hours={course?.training_hrs}
+              topic={course?.topic}
+              image={course?.course_image}
+            />
+          </Grid>
+        ))}
+      </Grid>
+    </Grid>
   )
 }
 
