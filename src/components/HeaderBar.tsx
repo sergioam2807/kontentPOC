@@ -3,6 +3,25 @@ import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
 
 const HeaderBar = () => {
+  const userProfileString: string | null = localStorage.getItem('userProfile')
+  let userProfile = null
+  if (userProfileString !== null && userProfileString !== '') {
+    userProfile = JSON.parse(userProfileString)
+  }
+  console.log(userProfile)
+
+  const avatarName =
+    userProfile !== null && userProfile !== undefined
+      ? `${userProfile.given_name.charAt(0)}${userProfile.family_name.charAt(
+          0
+        )}`
+      : 'NA'
+
+  const avatarImage =
+    userProfile !== null && userProfile !== undefined
+      ? userProfile.picture
+      : null
+
   return (
     <Grid>
       <Grid
@@ -36,8 +55,19 @@ const HeaderBar = () => {
             }}
           />
         </Box>
-        <Grid mr={5}>
-          <Avatar sx={{ bgcolor: '#301038' }}>SA</Avatar>
+        <Grid
+          mr={5}
+          display={'flex'}
+          justifyContent={'center'}
+          alignItems={'center'}
+          gap={3}
+        >
+          <Typography color={'#301038'} fontWeight={700} fontSize={'15px'}>
+            {userProfile.given_name} {userProfile.family_name}
+          </Typography>
+          <Avatar sx={{ bgcolor: '#301038' }} src={avatarImage}>
+            {avatarName}
+          </Avatar>
         </Grid>
       </Grid>
     </Grid>

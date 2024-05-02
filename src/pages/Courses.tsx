@@ -3,6 +3,7 @@ import { deliveryClient } from '../client/client'
 import { useLocation, useParams } from 'react-router-dom'
 import CourseCard from '../components/CourseCard'
 import { Grid, Typography } from '@mui/material'
+import { createManagementClient } from '@kontent-ai/management-sdk'
 
 interface Course {
   id: string
@@ -17,10 +18,16 @@ interface Course {
   course_image: string
 }
 
+const clientMangement = createManagementClient({
+  environmentId: import.meta.env.VITE_APP_KONTENT_PROJECT_ID,
+  apiKey: import.meta.env.VITE_APP_KONTENT_API_KEY
+})
+
 const Courses = () => {
   const { level } = useParams<{ level: string }>()
   const [courses, setCourses] = useState<Course[]>([])
   const location = useLocation()
+
   const pathParts = location.pathname.split('/')
   const pathName = pathParts[2]
   const capitalizedPathName =
@@ -66,7 +73,60 @@ const Courses = () => {
       })
   }, [level])
 
-  console.log('courses', courses)
+  useEffect(() => {
+    clientMangement
+      .addContentItem()
+      .withData({
+        name: 'Nombre del nuevo elemento',
+        type: {
+          codename: 'suggestions'
+        }
+      })
+      .toPromise()
+      .then(async (response) => {
+        console.log('idylactm', response.data.id)
+
+        // Wait for a few seconds before updating the content item
+        return await new Promise((resolve) => setTimeout(resolve, 5000)).then(
+          async () =>
+            await clientMangement
+              .upsertLanguageVariant()
+              .byItemId(response.data.id)
+              .byLanguageCodename('default')
+              .withData((builder) => {
+                return {
+                  elements: [
+                    builder.textElement({
+                      element: {
+                        codename: 'user_name'
+                      },
+                      value: 'Nombre del usuario'
+                    }),
+                    builder.textElement({
+                      element: {
+                        codename: 'suggestion_title'
+                      },
+                      value: 'Título de la sugerencia'
+                    }),
+                    builder.textElement({
+                      element: {
+                        codename: 'suggestion_description'
+                      },
+                      value: 'Descripción de la sugerencia'
+                    })
+                  ]
+                }
+              })
+              .toPromise()
+        )
+      })
+      .then((response) => {
+        console.log(response)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  }, [])
 
   return (
     <Grid>

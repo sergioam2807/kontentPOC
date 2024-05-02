@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { Grid, Typography, Paper, TextField, Box, Button } from '@mui/material'
 import { deliveryClient } from '../client/client'
+import { useAuth0 } from '@auth0/auth0-react'
 import relax from '../assets/study2.svg'
 import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
+import { useNavigate } from 'react-router-dom'
 
 const LandingPage = () => {
   const [content, setContent] = useState<IContentItemElements | null>(null)
   const navigate = useNavigate()
+  const { loginWithRedirect, isAuthenticated, user } = useAuth0()
 
   useEffect(() => {
     deliveryClient
@@ -21,6 +23,13 @@ const LandingPage = () => {
         console.error(error)
       })
   }, [])
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      localStorage.setItem('userProfile', JSON.stringify(user))
+      navigate('/programs')
+    }
+  }, [isAuthenticated, navigate])
 
   return (
     <Grid
@@ -146,7 +155,7 @@ const LandingPage = () => {
               <Button
                 variant='contained'
                 onClick={() => {
-                  navigate('/programs')
+                  void loginWithRedirect()
                 }}
                 sx={{
                   backgroundColor: '#301038',
