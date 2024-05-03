@@ -29,7 +29,7 @@ const Courses = () => {
   const location = useLocation()
 
   const userProfileString: string | null = localStorage.getItem('userProfile')
-  let userProfile: Record<string, number> | null = null
+  let userProfile = null
   if (userProfileString !== null && userProfileString !== '') {
     userProfile = JSON.parse(userProfileString)
   }
@@ -105,7 +105,7 @@ const Courses = () => {
                   element: {
                     codename: 'user_name'
                   },
-                  value: `${userProfile?.given_name} ${userProfile?.family_name}`
+                  value: `${userProfile?.name}`
                 }),
                 builder.textElement({
                   element: {

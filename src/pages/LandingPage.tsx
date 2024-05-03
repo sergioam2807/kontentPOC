@@ -156,7 +156,11 @@ const LandingPage = () => {
                 >
                   Username
                 </Typography>
-                <TextField size='small' placeholder='example@example.com' />
+                <TextField
+                  size='small'
+                  placeholder='example@example.com'
+                  disabled
+                />
               </Grid>
               <Grid display={'flex'} flexDirection={'column'} gap={1}>
                 <Typography
@@ -171,8 +175,27 @@ const LandingPage = () => {
                   size='small'
                   placeholder='Password'
                   type='password'
+                  disabled
                 />
               </Grid>
+              <Button
+                variant='contained'
+                onClick={() => {
+                  void loginWithRedirect()
+                }}
+                disabled
+                sx={{
+                  backgroundColor: '#301038',
+                  fontWeight: '700',
+                  '&:hover': {
+                    backgroundColor: '#A786B1',
+                    color: '#301038',
+                    fontWeight: '700'
+                  }
+                }}
+              >
+                Login
+              </Button>
               <Button
                 variant='contained'
                 onClick={() => {
@@ -188,7 +211,7 @@ const LandingPage = () => {
                   }
                 }}
               >
-                Login
+                SSO
               </Button>
             </Grid>
           </Paper>
