@@ -18,6 +18,16 @@ interface Course {
   course_image: string
 }
 
+interface UserProfile {
+  nickname: string
+  name: string
+  picture: string
+  updated_at: string
+  email: string
+  email_verified: boolean
+  sub: string
+}
+
 const clientMangement = createManagementClient({
   environmentId: import.meta.env.VITE_APP_KONTENT_PROJECT_ID,
   apiKey: import.meta.env.VITE_APP_KONTENT_API_KEY
@@ -29,7 +39,7 @@ const Courses = () => {
   const location = useLocation()
 
   const userProfileString: string | null = localStorage.getItem('userProfile')
-  let userProfile = null
+  let userProfile: UserProfile | null = null
   if (userProfileString !== null && userProfileString !== '') {
     userProfile = JSON.parse(userProfileString)
   }
