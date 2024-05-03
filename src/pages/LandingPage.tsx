@@ -3,12 +3,12 @@ import { Grid, Typography, Paper, TextField, Box, Button } from '@mui/material'
 import { deliveryClient } from '../client/client'
 import { useAuth0 } from '@auth0/auth0-react'
 import relax from '../assets/study2.svg'
-import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
+import { type IContentItem } from '@kontent-ai/delivery-sdk'
 import { useNavigate } from 'react-router-dom'
 import KontentSmartLink from '@kontent-ai/smart-link'
 
 const LandingPage = () => {
-  const [content, setContent] = useState<IContentItemElements | null>(null)
+  const [content, setContent] = useState<IContentItem | null>(null)
   const navigate = useNavigate()
   const { loginWithRedirect, isAuthenticated, user } = useAuth0()
 
@@ -18,7 +18,7 @@ const LandingPage = () => {
       .type('landingpage')
       .toPromise()
       .then((response) => {
-        setContent(response?.data?.items[0]?.elements)
+        setContent(response?.data?.items[0])
       })
       .catch((error) => {
         console.error(error)
@@ -28,7 +28,7 @@ const LandingPage = () => {
   useEffect(() => {
     const kontentSmartLink = KontentSmartLink.initialize({
       defaultDataAttributes: {
-        projectId: process.env.VITE_APP_KONTENT_PROJECT_ID,
+        projectId: import.meta.env.VITE_APP_KONTENT_PROJECT_ID,
         languageCodename: 'default'
       },
       queryParam: 'preview'
@@ -45,6 +45,10 @@ const LandingPage = () => {
       navigate('/programs')
     }
   }, [isAuthenticated, navigate])
+
+  useEffect(() => {
+    console.log('content', content)
+  }, [content])
 
   return (
     <Grid
@@ -65,9 +69,7 @@ const LandingPage = () => {
             p={4}
             borderRadius={'20px'}
             mt={7}
-            data-kontent-item-id={
-              (content?.system as unknown as { id: string })?.id
-            }
+            data-kontent-item-id={content?.system?.id}
           >
             <Typography
               variant='h1'
@@ -77,7 +79,7 @@ const LandingPage = () => {
               textAlign={'center'}
               data-kontent-element-codename='title'
             >
-              {content?.title?.value}🚀
+              {content?.elements?.title?.value}🚀
             </Typography>
           </Grid>
         </Grid>
@@ -114,7 +116,7 @@ const LandingPage = () => {
               fontWeight={900}
               fontSize={'20px'}
             >
-              {content?.sub_title?.value}
+              {content?.elements?.sub_title?.value}
             </Typography>
             <Typography
               variant='body2'
@@ -122,7 +124,7 @@ const LandingPage = () => {
               fontWeight={700}
               fontSize={'18px'}
             >
-              {content?.description?.value}
+              {content?.elements?.description?.value}
             </Typography>
           </Grid>
         </Grid>
@@ -141,7 +143,7 @@ const LandingPage = () => {
               textAlign={'center'}
               fontWeight={900}
             >
-              {content?.title_icon?.value}!
+              {content?.elements?.title_icon?.value}!
             </Typography>
           </Grid>
           <Paper elevation={24} square={false} sx={{ borderRadius: '20px' }}>
