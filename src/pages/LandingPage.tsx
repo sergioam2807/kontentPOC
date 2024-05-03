@@ -5,6 +5,7 @@ import { useAuth0 } from '@auth0/auth0-react'
 import relax from '../assets/study2.svg'
 import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
 import { useNavigate } from 'react-router-dom'
+import KontentSmartLink from '@kontent-ai/smart-link'
 
 const LandingPage = () => {
   const [content, setContent] = useState<IContentItemElements | null>(null)
@@ -22,6 +23,20 @@ const LandingPage = () => {
       .catch((error) => {
         console.error(error)
       })
+  }, [])
+
+  useEffect(() => {
+    const kontentSmartLink = KontentSmartLink.initialize({
+      defaultDataAttributes: {
+        projectId: process.env.VITE_APP_KONTENT_PROJECT_ID,
+        languageCodename: 'default'
+      },
+      queryParam: 'preview'
+    })
+
+    return () => {
+      kontentSmartLink.destroy()
+    }
   }, [])
 
   useEffect(() => {
@@ -50,6 +65,9 @@ const LandingPage = () => {
             p={4}
             borderRadius={'20px'}
             mt={7}
+            data-kontent-item-id={
+              (content?.system as unknown as { id: string })?.id
+            }
           >
             <Typography
               variant='h1'
@@ -57,6 +75,7 @@ const LandingPage = () => {
               color={'#301038'}
               fontWeight={900}
               textAlign={'center'}
+              data-kontent-element-codename='title'
             >
               {content?.title?.value}🚀
             </Typography>
