@@ -28,6 +28,12 @@ const Courses = () => {
   const [courses, setCourses] = useState<Course[]>([])
   const location = useLocation()
 
+  const userProfileString: string | null = localStorage.getItem('userProfile')
+  let userProfile: Record<string, number> | null = null
+  if (userProfileString !== null && userProfileString !== '') {
+    userProfile = JSON.parse(userProfileString)
+  }
+
   const pathParts = location.pathname.split('/')
   const pathName = pathParts[2]
   const capitalizedPathName =
@@ -86,47 +92,45 @@ const Courses = () => {
       .then(async (response) => {
         console.log('idylactm', response.data.id)
 
-        // Wait for a few seconds before updating the content item
-        return await new Promise((resolve) => setTimeout(resolve, 5000)).then(
-          async () =>
-            await clientMangement
-              .upsertLanguageVariant()
-              .byItemId(response.data.id)
-              .byLanguageCodename('default')
-              .withData((builder) => {
-                return {
-                  elements: [
-                    builder.textElement({
-                      element: {
-                        codename: 'user_name'
-                      },
-                      value: 'Nombre del usuario'
-                    }),
-                    builder.textElement({
-                      element: {
-                        codename: 'suggestion_title'
-                      },
-                      value: 'Título de la sugerencia'
-                    }),
-                    builder.textElement({
-                      element: {
-                        codename: 'suggestion_description'
-                      },
-                      value: 'Descripción de la sugerencia'
-                    })
-                  ]
-                }
-              })
-              .toPromise()
-        )
+        await new Promise((resolve) => setTimeout(resolve, 5000))
+
+        await clientMangement
+          .upsertLanguageVariant()
+          .byItemId(response.data.id)
+          .byLanguageCodename('default')
+          .withData((builder) => {
+            return {
+              elements: [
+                builder.textElement({
+                  element: {
+                    codename: 'user_name'
+                  },
+                  value: `${userProfile?.given_name} ${userProfile?.family_name}`
+                }),
+                builder.textElement({
+                  element: {
+                    codename: 'suggestion_title'
+                  },
+                  value: 'Título de la sugerencia'
+                }),
+                builder.textElement({
+                  element: {
+                    codename: 'suggestion_description'
+                  },
+                  value: 'Descripción de la sugerencia'
+                })
+              ]
+            }
+          })
+          .toPromise()
       })
       .then((response) => {
-        console.log(response)
+        console.log('Publicado:', response)
       })
       .catch((error) => {
         console.error(error)
       })
-  }, [])
+  }, [level])
 
   return (
     <Grid>

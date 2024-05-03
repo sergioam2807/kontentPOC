@@ -12,9 +12,9 @@ const HeaderBar = () => {
 
   const avatarName =
     userProfile !== null && userProfile !== undefined
-      ? `${userProfile.given_name.charAt(0)}${userProfile.family_name.charAt(
-          0
-        )}`
+      ? `${userProfile.name.split(' ')[0].charAt(0)}${userProfile.name
+          .split(' ')[1]
+          .charAt(0)}`
       : 'NA'
 
   const avatarImage =
@@ -63,7 +63,7 @@ const HeaderBar = () => {
           gap={3}
         >
           <Typography color={'#301038'} fontWeight={700} fontSize={'15px'}>
-            {userProfile.given_name} {userProfile.family_name}
+            {userProfile.name}
           </Typography>
           <Avatar sx={{ bgcolor: '#301038' }} src={avatarImage}>
             {avatarName}
