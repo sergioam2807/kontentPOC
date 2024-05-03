@@ -1,5 +1,5 @@
 import { Avatar, Box, Grid, Typography } from '@mui/material'
-import SearchIcon from '@mui/icons-material/Search'
+// import SearchIcon from '@mui/icons-material/Search'
 import InputBase from '@mui/material/InputBase'
 
 const HeaderBar = () => {
@@ -43,7 +43,7 @@ const HeaderBar = () => {
         </Typography>
 
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <SearchIcon color='action' />
+          {/* <SearchIcon color='action' /> */}
           <InputBase
             placeholder='Search…'
             inputProps={{ 'aria-label': 'search' }}
