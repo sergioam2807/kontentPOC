@@ -8,7 +8,6 @@ const HeaderBar = () => {
   if (userProfileString !== null && userProfileString !== '') {
     userProfile = JSON.parse(userProfileString)
   }
-  console.log(userProfile)
 
   const avatarName =
     userProfile !== null && userProfile !== undefined

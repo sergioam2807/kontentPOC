@@ -3,13 +3,11 @@ import { deliveryClient } from '../client/client'
 import { type IContentItemElements } from '@kontent-ai/delivery-sdk'
 import { Grid, Typography } from '@mui/material'
 import ProgramsCard from '../components/ProgramsCard'
-import { useAuth0 } from '@auth0/auth0-react'
+// import { useAuth0 } from '@auth0/auth0-react'
 
 const Programs = () => {
   const [programs, setPrograms] = useState<IContentItemElements[] | null>(null)
-  const { user } = useAuth0()
-
-  console.log('user', user)
+  // const { user } = useAuth0()
 
   useEffect(() => {
     deliveryClient
@@ -25,7 +23,6 @@ const Programs = () => {
       })
   }, [])
 
-  console.log(programs)
   return (
     <Grid>
       <Grid display={'flex'} justifyContent={'center'} mt={10} mb={10}>

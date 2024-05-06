@@ -46,10 +46,6 @@ const LandingPage = () => {
     }
   }, [isAuthenticated, navigate])
 
-  useEffect(() => {
-    console.log('content', content)
-  }, [content])
-
   return (
     <Grid
       display={'flex'}
