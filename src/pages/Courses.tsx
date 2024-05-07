@@ -3,7 +3,6 @@ import { deliveryClient } from '../client/client'
 import { useLocation, useParams } from 'react-router-dom'
 import CourseCard from '../components/CourseCard'
 import { Grid, Typography } from '@mui/material'
-// import { createManagementClient } from '@kontent-ai/management-sdk'
 
 interface Course {
   id: string
