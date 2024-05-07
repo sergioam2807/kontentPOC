@@ -1,7 +1,13 @@
 // import React from 'react'
 
+import { Grid, Typography } from '@mui/material'
+
 const SuggestionsForm = () => {
-  return <div>Suggestions form</div>
+  return (
+    <Grid>
+      <Typography>hello</Typography>
+    </Grid>
+  )
 }
 
 export default SuggestionsForm

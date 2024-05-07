@@ -18,31 +18,10 @@ interface Course {
   course_image: string
 }
 
-// interface UserProfile {
-//   nickname: string
-//   name: string
-//   picture: string
-//   updated_at: string
-//   email: string
-//   email_verified: boolean
-//   sub: string
-// }
-
-// const clientMangement = createManagementClient({
-//   environmentId: import.meta.env.VITE_APP_KONTENT_PROJECT_ID,
-//   apiKey: import.meta.env.VITE_APP_KONTENT_API_KEY
-// })
-
 const Courses = () => {
   const { level } = useParams<{ level: string }>()
   const [courses, setCourses] = useState<Course[]>([])
   const location = useLocation()
-
-  // const userProfileString: string | null = localStorage.getItem('userProfile')
-  // let userProfile: UserProfile | null = null
-  // if (userProfileString !== null && userProfileString !== '') {
-  //   userProfile = JSON.parse(userProfileString)
-  // }
 
   const pathParts = location.pathname.split('/')
   const pathName = pathParts[2]
@@ -89,69 +68,6 @@ const Courses = () => {
         console.error(error)
       })
   }, [level])
-
-  // useEffect(() => {
-  //   clientMangement
-  //     .addContentItem()
-  //     .withData({
-  //       name: 'Nombre del nuevo elemento',
-  //       type: {
-  //         codename: 'suggestions'
-  //       }
-  //     })
-  //     .toPromise()
-  //     .then(async (response) => {
-  //       await clientMangement
-  //         .upsertLanguageVariant()
-  //         .byItemId(response.data.id)
-  //         .byLanguageCodename('default')
-  //         .withData((builder) => {
-  //           return {
-  //             elements: [
-  //               builder.textElement({
-  //                 element: {
-  //                   codename: 'user_name'
-  //                 },
-  //                 value: `${userProfile?.name}`
-  //               }),
-  //               builder.textElement({
-  //                 element: {
-  //                   codename: 'suggestion_title'
-  //                 },
-  //                 value: 'Título de la sugerencia'
-  //               }),
-  //               builder.textElement({
-  //                 element: {
-  //                   codename: 'suggestion_description'
-  //                 },
-  //                 value: 'Descripción de la sugerencia'
-  //               })
-  //             ]
-  //           }
-  //         })
-  //         .toPromise()
-  //         .then(async (response) => {
-  //           const itemId = response?.data?.item?.id
-
-  //           if (typeof itemId === 'string') {
-  //             return await clientMangement
-  //               .publishLanguageVariant()
-  //               .byItemId(itemId)
-  //               .byLanguageCodename('default')
-  //               .withoutData()
-  //               .toPromise()
-  //           } else {
-  //             throw new Error('Item ID is undefined')
-  //           }
-  //         })
-  //     })
-  //     .then((response) => {
-  //       console.log('Workflow changed:', response)
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-  // }, [level])
 
   return (
     <Grid>
