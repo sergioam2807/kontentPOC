@@ -1,5 +1,13 @@
 import { useState, useEffect } from 'react'
-import { Grid, Typography, Paper, TextField, Box, Button } from '@mui/material'
+import {
+  Grid,
+  Typography,
+  Paper,
+  TextField,
+  Box,
+  Button,
+  LinearProgress
+} from '@mui/material'
 import { deliveryClient } from '../client/client'
 import { useAuth0 } from '@auth0/auth0-react'
 import relax from '../assets/study2.svg'
@@ -10,7 +18,7 @@ import KontentSmartLink from '@kontent-ai/smart-link'
 const LandingPage = () => {
   const [content, setContent] = useState<IContentItem | null>(null)
   const navigate = useNavigate()
-  const { loginWithRedirect, isAuthenticated, user } = useAuth0()
+  const { loginWithRedirect, isAuthenticated, user, isLoading } = useAuth0()
 
   useEffect(() => {
     deliveryClient
@@ -45,6 +53,28 @@ const LandingPage = () => {
       navigate('/programs')
     }
   }, [isAuthenticated, navigate])
+
+  if (isLoading) {
+    return (
+      <Box
+        display='flex'
+        justifyContent='center'
+        alignItems='center'
+        minHeight='100vh'
+        flexDirection={'column'}
+      >
+        <Typography
+          variant='h2'
+          color={'#301038'}
+          textAlign={'center'}
+          fontWeight={900}
+        >
+          BagdeUp!
+        </Typography>
+        <LinearProgress />
+      </Box>
+    )
+  }
 
   return (
     <Grid
